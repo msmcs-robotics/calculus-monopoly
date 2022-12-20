@@ -1,3 +1,7 @@
+let num_log_entry = 1;
+
+max_num_players = 33;
+
 function Game() {
 	var die1;
 	var die2;
@@ -1119,6 +1123,7 @@ function Player(name, color) {
 	this.chanceJailCard = false;
 	this.bidding = true;
 	this.human = true;
+
 	// this.AI = null;
 
 	this.pay = function (amount, creditor) {
@@ -1221,14 +1226,16 @@ Array.prototype.randomize = function(length) {
 function addAlert(alertText) {
 	$alert = $("#alert");
 
-	$(document.createElement("div")).text(alertText).appendTo($alert);
+	$(document.createElement("div")).text(num_log_entry.toString() + ") " + alertText).appendTo($alert);
 
 	// Animate scrolling down alert element.
 	$alert.stop().animate({"scrollTop": $alert.prop("scrollHeight")}, 1000);
 
 	if (!player[turn].human) {
-		player[turn].AI.alertList += "<div>" + alertText + "</div>";
+		player[turn].AI.alertList += "<div>" + (num_log_entry.toString() + ") ") + alertText + "</div>";
 	}
+
+	num_log_entry++;
 }
 
 function popup(HTML, action, option) {
@@ -1260,6 +1267,7 @@ function popup(HTML, action, option) {
 
 	// Ok
 	} else if (option !== "blank") {
+		
 		$("#popuptext").append("<div><input type='button' value='OK' id='popupclose' /></div>");
 		$("#popupclose").focus();
 
@@ -2089,12 +2097,12 @@ function showStats() {
 	var mortgagetext,
 	housetext;
 	var write;
-	HTML = "<table align='center'><tr>";
+	HTML = "<table id='statstable' align='center'><tr>";
 
 	for (var x = 1; x <= pcount; x++) {
 		write = false;
 		p = player[x];
-		if (x == 5) {
+		if (x % 5 === 1) {
 			HTML += "</tr><tr>";
 		}
 		HTML += "<td class='statscell' id='statscell" + x + "' style='border: 2px solid " + p.color + "' ><div class='statsplayername'>" + p.name + "</div>";
@@ -2164,6 +2172,7 @@ function showStats() {
 		$("#statswrap").show();
 	});
 }
+
 
 function showdeed(property) {
 	var sq = square[property];
@@ -2277,7 +2286,6 @@ function unmortgage(index) {
 	updateOwned();
 	return true;
 }
-
 
 function land(increasedRent) {
 	increasedRent = !!increasedRent; // Cast increasedRent to a boolean value. It is used for the ADVANCE TO THE NEAREST RAILROAD/UTILITY Chance cards.
@@ -2415,7 +2423,10 @@ function land(increasedRent) {
 }
 
 function roll() {
+	
 	var p = player[turn];
+
+	// check if math question was answered correctly
 
 	$("#option").hide();
 	$("#buy").show();
@@ -2532,7 +2543,70 @@ function roll() {
 	}
 }
 
+function continue_play(p) {
+	// if they answered correctly, they get a turn
+	game.resetDice();
+
+	document.getElementById("pname").innerHTML = p.name;
+	addAlert("It is " + p.name + "'s turn.");
+	// Check for bankruptcy.
+	p.pay(0, p.creditor);
+	$("#landed, #option, #manage").hide();
+	$("#board, #control, #moneybar, #viewstats, #buy").show();
+	doublecount = 0;
+	if (p.human) {
+		document.getElementById("nextbutton").focus();
+	}
+	document.getElementById("nextbutton").value = "Roll Dice";
+	document.getElementById("nextbutton").title = "Roll the dice and move your token accordingly.";
+	$("#die0").hide();
+	$("#die1").hide();
+	if (p.jail) {
+		$("#landed").show();
+		document.getElementById("landed").innerHTML = "You are in jail.<input type='button' title='Pay $50 fine to get out of jail immediately.' value='Pay $50 fine' onclick='payfifty();' />";
+		if (p.communityChestJailCard || p.chanceJailCard) {
+			document.getElementById("landed").innerHTML += "<input type='button' id='gojfbutton' title='Use &quot;Get Out of Jail Free&quot; card.' onclick='useJailCard();' value='Use Card' />";
+		}
+		document.getElementById("nextbutton").title = "Roll the dice. If you throw doubles, you will get out of jail.";
+		if (p.jailroll === 0)
+			addAlert("This is " + p.name + "'s first turn in jail.");
+		else if (p.jailroll === 1)
+			addAlert("This is " + p.name + "'s second turn in jail.");
+		else if (p.jailroll === 2) {
+			document.getElementById("landed").innerHTML += "<div>NOTE: If you do not throw doubles after this roll, you <i>must</i> pay the $50 fine.</div>";
+			addAlert("This is " + p.name + "'s third turn in jail.");
+		}
+		if (!p.human && p.AI.postBail()) {
+			if (p.communityChestJailCard || p.chanceJailCard) {
+				useJailCard();
+			} else {
+				payfifty();
+			}
+		}
+	}
+	updateMoney();
+	updatePosition();
+	updateOwned();
+	$(".money-bar-arrow").hide();
+	$("#p" + turn + "arrow").show();
+	if (!p.human) {
+		if (!p.AI.beforeTurn()) {
+			game.next();
+		}
+	}
+}
+
+function skip(p) {
+	updatePosition();
+	// lose a turn
+	$("#board, #control, #moneybar, #viewstats").show();
+	
+	addAlert(p.name + " did not answer their math question correctly and lost a turn.");
+	popup(p.name + " did not answer their math question correctly and lost a turn.", play);
+}
+
 function play() {
+
 	if (game.auction()) {
 		return;
 	}
@@ -2543,68 +2617,16 @@ function play() {
 	}
 
 	var p = player[turn];
-	game.resetDice();
 
-	document.getElementById("pname").innerHTML = p.name;
-
-	addAlert("It is " + p.name + "'s turn.");
-
-	// Check for bankruptcy.
-	p.pay(0, p.creditor);
-
-	$("#landed, #option, #manage").hide();
-	$("#board, #control, #moneybar, #viewstats, #buy").show();
-
-	doublecount = 0;
-	if (p.human) {
-		document.getElementById("nextbutton").focus();
-	}
-	document.getElementById("nextbutton").value = "Roll Dice";
-	document.getElementById("nextbutton").title = "Roll the dice and move your token accordingly.";
-
-	$("#die0").hide();
-	$("#die1").hide();
-
-	if (p.jail) {
-		$("#landed").show();
-		document.getElementById("landed").innerHTML = "You are in jail.<input type='button' title='Pay $50 fine to get out of jail immediately.' value='Pay $50 fine' onclick='payfifty();' />";
-
-		if (p.communityChestJailCard || p.chanceJailCard) {
-			document.getElementById("landed").innerHTML += "<input type='button' id='gojfbutton' title='Use &quot;Get Out of Jail Free&quot; card.' onclick='useJailCard();' value='Use Card' />";
-		}
-
-		document.getElementById("nextbutton").title = "Roll the dice. If you throw doubles, you will get out of jail.";
-
-		if (p.jailroll === 0)
-			addAlert("This is " + p.name + "'s first turn in jail.");
-		else if (p.jailroll === 1)
-			addAlert("This is " + p.name + "'s second turn in jail.");
-		else if (p.jailroll === 2) {
-			document.getElementById("landed").innerHTML += "<div>NOTE: If you do not throw doubles after this roll, you <i>must</i> pay the $50 fine.</div>";
-			addAlert("This is " + p.name + "'s third turn in jail.");
-		}
-
-		if (!p.human && p.AI.postBail()) {
-			if (p.communityChestJailCard || p.chanceJailCard) {
-				useJailCard();
-			} else {
-				payfifty();
-			}
-		}
+	$("#setup").hide();
+	$("#board, #control, #moneybar, #viewstats").show();
+	if (confirm("Did " + p.name + " answer the math question correctly?")) {
+		// continue play
+		continue_play(p);
+	} else {
+		skip(p);
 	}
 
-	updateMoney();
-	updatePosition();
-	updateOwned();
-
-	$(".money-bar-arrow").hide();
-	$("#p" + turn + "arrow").show();
-
-	if (!p.human) {
-		if (!p.AI.beforeTurn()) {
-			game.next();
-		}
-	}
 }
 
 function setup() {
@@ -2705,7 +2727,7 @@ function menuitem_onmouseout(element) {
 window.onload = function() {
 	game = new Game();
 
-	for (var i = 0; i <= 8; i++) {
+	for (var i = 0; i <= max_num_players; i++) {
 		player[i] = new Player("", "");
 		player[i].index = i;
 	}

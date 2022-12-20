@@ -1,5 +1,6 @@
 body {
-	background: #FFFFFF;
+	background: #59595C;
+	color: #FFFFFF;
 	margin: 0px;
 	min-width: 1075px;
 }
@@ -17,17 +18,20 @@ td {
 }
 
 #moneybar {
-	float: right;
+	height: 450px;
+	position: relative;
+	right: 20vw;
+	top: 20vh;
 	border: 0px solid black;
-	background-color: white;
+	background-color: #59595C;
 	margin: 15px;
 	border-radius: 5px;
 	display: none;
 	z-index: 14;
-	position: relative;
 	cursor: default;
 	-webkit-user-select: none;
 	user-select: none;
+	overflow-y: scroll;
 }
 
 #moneybar table {
@@ -88,7 +92,7 @@ td {
 	border: 2px solid black;
 	padding: 10px;
 	display: none;
-	background-color: white;
+	background-color: #59595C;
 }
 
 #quickstats {
@@ -102,28 +106,32 @@ td {
 }
 
 #pname {
-	background-color: white;
+	background-color: #59595C;
 }
 
 #landed {
 	padding: 3px;
 	border: 1px solid gray;
 	border-top: none;
-	width: 302px;
+	width: 10vmax;
+	max-height: 5vw;
 
 	margin: 0px;
 	text-align: center;
 }
 
 #alert {
-	width: 307px;
-	height: 92px;
+	width: 20vw;
+	height: 30vh;
+	max-width: 20vw;
+	max-height: 30vh;
 	margin: 0px;
 	padding-left: 1px;
 	border: 1px solid gray;
 	font-family: Consolas, "Courier New", monospace;
 	font-size: 13px;
-	background-color: #FFFFFF;
+	color: #FFFFFF;
+	background-color: #59595C;
 	overflow-y: scroll;
 }
 
@@ -135,9 +143,9 @@ td {
 
 #option {
 	border-bottom: 1px solid gray;
-	background-color: white;
+	background-color: #59595C;
 	display: none;
-	background: white;
+	background: #59595C;
 	vertical-align: middle;
 	padding: 3px;
 	text-align: center;
@@ -167,7 +175,7 @@ td {
 
 #owned {
 	padding: 3px 0px;
-	background-color: white;
+	background-color: #59595C;
 	text-align: center;
 	max-height: 390px;
 	overflow-y: auto;
@@ -179,7 +187,7 @@ td {
 
 #property {
 	margin-right: 1px;
-	background: white;
+	background: #59595C;
 }
 
 #trade {
@@ -187,7 +195,7 @@ td {
 	display: none;
 	width: 630px;
 	margin: 15px auto;
-	background-color: white;
+	background-color: #59595C;
 	border-radius: 8px;
 	padding: 2px;
 	z-index: 14;
@@ -222,7 +230,7 @@ td {
 }
 
 #deedcolor {
-	background: white;
+	background-color: #59595C;
 	width: 100%;
 	height: 48px;
 }
@@ -231,12 +239,12 @@ td {
 	margin-top: 10px;
 	font-weight: bold;
 	font-size: 20px;
-	background-color: white;
+	background-color: #59595C;
 }
 
 #menu {
-	width: 290px;
-	height: 32px;
+	width: 8vw;
+	height: 6vw;
 	margin: 0px 10px;
 }
 
@@ -249,7 +257,8 @@ td {
 	font-size: 16px;
 	border: 1px solid blue;
 	border-radius: 5px 5px 0px 0px;
-	height: 30px;
+	min-height: 1vw;
+	max-height: 5vw;
 	width: 99%;
 	margin: 0px;
 	background-color: #305BC9;
@@ -277,12 +286,14 @@ td {
 	color: #FFFFFF;
 	margin-left: 2px;
 	border-left: none;
+	height: fit-content;
 }
 
 #trade-menu-item {
 	color: #AAAAAA;
 	border-right: none;
 	margin-right: 2px;
+	height: fit-content;
 }
 
 
@@ -297,7 +308,7 @@ td {
 	line-height: 1.5;
 	border: 2px solid black;
 	border-radius: 10px;
-	background-color: white;
+	background-color: #59595C;
 	display: block;
 	z-index: 13;
 	margin: auto;
@@ -363,8 +374,9 @@ td {
 }
 
 #stats {
-	max-width: 914px;
-	min-width: 454px;
+	max-width: 75vw;
+	min-width: 10vw;
+	max-height: 75vh;
 	font-family: Arial, sans-serif;
 	font-size: 14px;
 	padding: 10px;
@@ -373,20 +385,20 @@ td {
 	line-height: 1.5;
 	border: 2px solid black;
 	border-radius: 10px;
-	background-color: white;
+	background-color: #59595C;
 	display: block;
 	z-index: 17;
 	margin: auto;
 	position: relative;
-	top: 0px;
-	left: 0px;
+	
 	-webkit-user-select: none;
 	user-select: none;
+	overflow-y: scroll;
 }
 
 #statswrap {
 	position: absolute;
-	top: 250px;
+	top: 10vh;
 	left: 0px;
 	width: 100%;
 	display: none;
@@ -403,8 +415,8 @@ td {
 #statsclose {
 	display: block;
 	position: absolute;
-	top: -24px;
-	right: -25px;
+	top:-2%;
+    right:-0.75%;
 	width: 30px;
 	height: 30px;
 	border: none;
@@ -439,7 +451,7 @@ td {
 	border: 2px solid black;
 	width: 235px;
 	height: 275px;
-	background-color: white;
+	background-color: #59595C;
 	z-index: 18;
 	-webkit-user-select: none;
 	user-select: none;
@@ -580,7 +592,7 @@ td {
 }
 
 .board-center {
-	width: 675px;
+	width: 95vw;
 	border: none;
 	vertical-align: bottom;
 	background-repeat: no-repeat;
@@ -588,35 +600,35 @@ td {
 }
 
 .board-corner {
-	width: 102px;
-	height: 102px;
+	width: 10vw;
+	height: 10vh;
 }
 
 .board-top {
-	width: 72px;
-	height: 102px;
+	width: 3vw;
+	height: 7.5vh;
 }
 
 .board-bottom {
-	width: 72px;
-	height: 102px;
+	width: 4vw;
+	height: 7.5vh;
 }
 
 .board-left {
-	width: 102px;
-	height: 72px;
+	width: 3vw;
+	height: 7.5vh;
 }
 
 .board-right {
-	width: 102px;
-	height: 72px;
+	width: 3vw;
+	height: 7.5vh;
 }
 
 .enlarge {
 	width: 150px;
 	height: 200px;
 	display: none;
-	background-color: white;
+	background-color: #59595C;
 	border: 2px solid black;
 	text-align: center;
 	font-size: 12px;
@@ -626,7 +638,7 @@ td {
 }
 
 .enlarge-color {
-	background: white;
+	background-color: #59595C;
 	width: 100%;
 	height: 40px;
 }
@@ -634,12 +646,12 @@ td {
 .enlarge-name {
 	font-weight: bold;
 	font-size: 20px;
-	background-color: white;
+	background-color: #59595C;
 	height: 45px;
 }
 
 .enlarge-price {
-	background-color: white;
+	background-color: #59595C;
 	vertical-align: bottom;
 	height: 25px;
 }
@@ -655,7 +667,7 @@ td {
 }
 
 .moneybararrowcell {
-	background: white;
+	background-color: #59595C;
 	width: 30px;
 	border: none;
 	text-align: right;
@@ -822,4 +834,66 @@ td {
 	top: 0px;
 	width: 15px;
 
+}
+
+#loading {
+    position: fixed;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    text-align: center;
+    opacity: 0.75;
+    background-color: #000;
+    z-index: 99;
+}
+
+#loading-image {
+	position: absolute;
+	top: 30vh;
+	left: 44vw;
+	z-index: 100;
+}
+
+#loading-text {
+	position: absolute;
+	top: 50vh;
+	left: 40vw;
+	font-weight: bold;
+	font-size: 2em;
+	z-index: 100;
+}
+
+#refer-header1 {
+	font-weight: bold;
+	font-size: 2em;
+	margin-top: 5%;
+	text-align: center;
+}
+
+#refer-header2 {
+	font-weight: bold;
+	font-size: 3em;
+	margin-top: 5%;
+	text-align: center;
+}
+
+#reference-text2 {
+	font-size: 1.5em;
+	margin-top: 5%;
+	text-align: center;
+}
+
+#refer-header3 {
+	font-weight: bold;
+	font-size: 3em;
+	margin-top: 5%;
+	text-align: center;
+}
+
+#reference-text3 {
+	font-size: 1.5em;
+	margin-top: 5%;
+	text-align: center;
 }

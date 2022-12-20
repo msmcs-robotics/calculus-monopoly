@@ -1,7 +1,10 @@
-# monopoly
+# Math Mafia
+
+> A monopoly-based calculus-themed math game
 
 A JavaScript/HTML/CSS Monopoly implementation with full game play. Supports two-eight players.
 
-Play online at [http://www.intrepidcoder.com/projects/monopoly/](http://www.intrepidcoder.com/projects/monopoly/).
+ - Play [This Version](https://monopoly.dev00ps.com)
+ - Play [The Original Version](http://www.intrepidcoder.com/projects/monopoly/).
 
 Includes an experimental capability to play against an AI. A test AI for demonstration purposes is included.
